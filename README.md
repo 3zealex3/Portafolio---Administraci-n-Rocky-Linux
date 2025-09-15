@@ -6,9 +6,6 @@ Este repositorio contiene todas las prácticas realizadas en la asignatura **Sis
 
 El objetivo de este portafolio es documentar y presentar de manera estructurada los conocimientos y prácticas desarrolladas a lo largo del curso.
 
-Videos de Youtube explicando Modulos:
-https://www.youtube.com/@3zealex3/playlists
-
 ---
 
 ## Contenido del Portafolio
