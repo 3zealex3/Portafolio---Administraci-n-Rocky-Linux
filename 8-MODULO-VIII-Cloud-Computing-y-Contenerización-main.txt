@@ -32,6 +32,10 @@ echo "<html><body><h1>Nombre: [Tu nombre]</h1><h2>Matrícula: [Tu matrícula]</h
 
 # Verificar que el contenedor está funcionando
 docker ps
+
+
+
+
 ----------------------------2da Practica---------------------------------
 
 #Link de pagina oficial
@@ -52,6 +56,12 @@ docker run -d \
   portainer/portainer-ce:latest
 
 # Acceder a la interfaz web en: https://127.0.0.1:9443
+
+
+
+
+
+
 -------------------------3ra Practica---------------------------------------
 
 
@@ -92,3 +102,4 @@ docker compose up -d
 iptables -A INPUT -p tcp --dport 8833 -j ACCEPT
 
 # Acceder a Wordpress en: http://127.0.0.1:8080
+
