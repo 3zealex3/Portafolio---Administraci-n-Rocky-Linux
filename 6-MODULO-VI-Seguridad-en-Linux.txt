@@ -30,7 +30,7 @@ cat archivo.gpg
 gpg2 -d archivo.txt.gpg
 
 
-------------------Practica 1 ------------------------------------
+------------------Practica 2 ------------------------------------
 
 
 
@@ -82,6 +82,10 @@ sudo firewall-cmd --permanent --add-service=ftp
 sudo firewall-cmd --permanent --add-service=ssh
 sudo firewall-cmd --reload
 sudo firewall-cmd --list-all  # Ver reglas
+
+
+
+
 ------------------Practica 3 ------------------------------------
 
 
@@ -222,6 +226,7 @@ alert tcp any any <> any 80 (msg:"HTTP Traffic Detected Port 80"; sid:10000005; 
 entrar a la ip de la vm por el navegador
 
 ejemplo: poner en el buscador esto "10.0.0.216"
+
 
 ------------------Practica 4 ------------------------------------
 
