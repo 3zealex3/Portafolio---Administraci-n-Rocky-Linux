@@ -1,0 +1,151 @@
+---------------------- Practica 1---------------------------------------
+
+sudo dnf update -y
+clear
+dnf repolist
+sudo dnf repolist -y
+clear
+dnf search bashtop
+sudo dnf intall epel-release
+sudo dnf install epel-release
+sudo dnf install bashtop
+dnf search bashtop
+clear
+sudo dnf install dnf-plugins-core -y
+sudo dnf copr enable atim/bashtop -y
+dnf repolist
+dnf search bashtop
+clear
+sudo dnf install python3-pip -y
+pip install bashtop
+clear
+sudo dnf install git python-devel -y
+sudo make install
+bashtop
+clear
+git clone https://github.com/aristocratos/bashtop.git 
+cd bashtop
+ls
+sudo make install
+sudo dnf install
+clear
+ls
+bashtop
+./bashtop
+cd ..
+ls
+cd ..
+ls
+cd 20242286-ezequiel/
+ls
+cd bashtop
+ls
+./bashtop
+cd ..
+ls
+cd 20242286-ezequiel/
+ls
+rm -fr bashtop/
+ls
+find / -name bashtop 2>/dev/null
+sudo rm -rf .config/bashtop
+find / -name bashtop 2>/dev/null
+
+---------------------- Practica 2---------------------------------------
+
+
+sudo nano /etc/crontab
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,>
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+
+
+
+
+crontab -e
+
+
+------------1. Actualizar el sistema todas las tardes a las 11 p.m. (usando cron)----------------
+
+0 23 * * * sudo dnf upgrade -y && sudo dnf autoremove -y
+
+
+----------2. Reiniciar la máquina todos los domingos a las 3 a.m. (usando cron)-------------------
+
+0 3 * * 0 sudo /sbin/reboot
+
+
+crontab -l
+ls /tmp/
+echo "sudo rm -rf /tmp/" | at now + 1 minute
+atq
+ls /tmp/
+clear
+
+
+
+---------------------- Practica 3---------------------------------------
+
+
+
+#Listamos los discos y particiones existentes en la máquina:
+
+lsblk
+
+#Luego de agregar el nuevo disco desde las configuraciones de la máquina, utilizamos el comando fdisk para crear una partición en el disco:
+
+sudo fdisk /dev/nvme0n2
+
+#Dentro de la herramienta fdisk, seguimos las siguientes configuraciones:
+
+n       # nueva partición
+p       # tipo primaria
+[Enter] # aceptar número de partición por defecto
+[Enter] # aceptar sector inicial por defecto
+[Enter] # aceptar sector final por defecto
+w       # guardar y salir
+
+#Listamos nuevamente los discos para verificar la partición creada:
+
+lsblk 
+
+#Formateamos la partición como ext4:
+
+sudo mkfs.ext4 /dev/nvme0n2p1
+
+#Creamos una carpeta en el escritorio y montamos el disco:
+
+cd ~/Desktop
+
+mkdir MiDisco
+
+sudo mount /dev/nvme0n2p1 ~/Desktop/MiDisco
+
+#Creamos el archivo de texto "AdrianAlcantara" dentro de la carpeta que contiene el disco:
+
+cd MiDisco
+
+sudo touch AdrianAlcantara.txt
+
+#Salimos de la ubicación y desmontamos el disco:
+
+cd ~
+sudo umount ~/Desktop/MiDisco
+
+#Ahora montamos el disco en otra localización, la /mnt
+
+sudo mount /dev/nvme0n2p1 /mnt
+
+#Verificamos que el archivo de texto AdrianAlcantara.txt siga ahí:
+
+ls /mnt
+
