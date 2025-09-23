@@ -1,0 +1,80 @@
+# 🛠️ Comandos útiles y ubicaciones clave en Rocky Linux
+
+## 🔍 Diagnóstico y monitoreo del sistema
+- `top`, `htop` - Ver uso de CPU, RAM en tiempo real.
+- `ps aux` - Listar todos los procesos.
+- `kill -9 PID` - Finalizar un proceso.
+- `journalctl`, `journalctl -xe` - Ver logs del sistema.
+- `df -h`, `du -sh *` - Espacio en disco/carpetas.
+- `free -h`, `vmstat` - Ver uso de memoria y swap.
+- `uptime`, `who -b` - Tiempo encendido desde último reinicio.
+- `lscpu`, `lsblk`, `lspci`, `lsusb` - Ver hardware del sistema.
+
+## 🌐 Red y conectividad
+- `ip a` - Ver interfaces de red.
+- `nmcli device status` - Estado de interfaces con NetworkManager.
+- `ping 8.8.8.8`, `ping google.com` - Comprobar conectividad.
+- `traceroute <host>` - Ver ruta de red.
+- `dig <host>`, `nslookup <host>` - Ver resolución DNS.
+- `netstat -tuln` o `ss -tuln` - Ver puertos abiertos.
+- `nmtui` - Herramienta de configuración de red (TUI).
+- `firewall-cmd --list-all` - Ver configuración del firewall.
+
+## 🔧 Servicios y demonios (systemd)
+- `systemctl status <servicio>` - Ver estado del servicio.
+- `systemctl start|stop|restart <servicio>` - Controlar servicios.
+- `systemctl enable|disable <servicio>` - Habilitar/deshabilitar al arranque.
+- `systemctl list-units --type=service` - Listar servicios activos.
+
+## 📦 Gestión de paquetes (DNF/YUM)
+- `dnf update` - Actualizar todos los paquetes.
+- `dnf install <paquete>` - Instalar un paquete.
+- `dnf remove <paquete>` - Eliminar un paquete.
+- `dnf list installed` - Ver paquetes instalados.
+- `dnf info <paquete>` - Ver información del paquete.
+- `rpm -q <paquete>` - Consultar si un paquete RPM está instalado.
+
+## 👤 Gestión de usuarios y permisos
+- `useradd`, `userdel`, `usermod` - Crear, eliminar, modificar usuarios.
+- `passwd <usuario>` - Cambiar contraseña de usuario.
+- `groups <usuario>` - Ver grupos a los que pertenece un usuario.
+- `chmod`, `chown`, `chgrp` - Cambiar permisos y propietarios.
+- `sudo` - Ejecutar comandos como root.
+
+## 💾 Disco y almacenamiento
+- `lsblk` - Ver dispositivos de bloques.
+- `fdisk -l` - Ver particiones y discos (MBR).
+- `parted -l` - Ver particiones GPT.
+- `mount`, `umount` - Montar o desmontar sistemas de archivos.
+- `df -hT` - Ver uso de disco por tipo de FS.
+- `blkid` - Ver UUID y tipo de sistema de archivos.
+
+## 🔐 Seguridad
+- `firewall-cmd` - Configurar firewall con firewalld.
+- `getenforce`, `setenforce` - Ver o cambiar modo de SELinux.
+- `semanage`, `restorecon` - Comandos de configuración SELinux.
+- `ssh`, editar `/etc/ssh/sshd_config` - Configurar acceso SSH.
+- `auditctl`, `ausearch` - Herramientas de auditoría.
+
+## 📁 Archivos y carpetas de configuración importantes
+- `/etc/hosts` - Resolución local de nombres.
+- `/etc/resolv.conf` - Configuración DNS.
+- `/etc/fstab` - Montaje automático de sistemas de archivos.
+- `/etc/hostname` - Nombre del host.
+- `/etc/network/` - Archivos de red (si no se usa NetworkManager).
+- `/etc/ssh/sshd_config` - Configuración del servidor SSH.
+- `/etc/firewalld/` - Archivos del firewall.
+- `/etc/passwd`, `/etc/shadow` - Usuarios y contraseñas.
+- `/etc/group` - Grupos del sistema.
+- `/etc/systemd/system/` - Servicios personalizados.
+- `/var/log/` - Carpeta de logs del sistema.
+- `/etc/selinux/config` - Configuración persistente de SELinux.
+
+## 🧰 Herramientas adicionales útiles
+- `fail2ban` - Protección contra ataques de fuerza bruta.
+- `clamav` - Antivirus.
+- `tcpdump`, `wireshark` - Análisis de tráfico de red.
+
+---
+
+> ⚠️ **Consejo**: Siempre hacer backups antes de modificar archivos de configuración críticos o reiniciar servicios esenciales.
