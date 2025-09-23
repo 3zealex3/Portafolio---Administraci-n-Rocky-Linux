@@ -1,4 +1,4 @@
----------------------- Practica 1---------------------------------------
+Práctica 1 - Gestión de Paquetes DNF
 
 sudo dnf update -y
 clear
@@ -51,7 +51,8 @@ find / -name bashtop 2>/dev/null
 sudo rm -rf .config/bashtop
 find / -name bashtop 2>/dev/null
 
----------------------- Practica 2---------------------------------------
+
+Práctica 2 - Configuración de Cron y AT
 
 
 sudo nano /etc/crontab
@@ -93,7 +94,7 @@ clear
 
 
 
----------------------- Practica 3---------------------------------------
+Práctica 3 - Gestión de Discos y Particiones
 
 
 
@@ -148,4 +149,5 @@ sudo mount /dev/nvme0n2p1 /mnt
 #Verificamos que el archivo de texto AdrianAlcantara.txt siga ahí:
 
 ls /mnt
+
 
