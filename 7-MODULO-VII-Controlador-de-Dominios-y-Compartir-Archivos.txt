@@ -64,6 +64,12 @@ sudo reboot
 -----------------Verificar montaje----------------
 
 ls /mnt/OS3_mount  # Los archivos deben estar accesibles.
+
+
+
+
+
+
 --------------------------Practica 2-----------------------------------------
 
 
@@ -411,6 +417,7 @@ Remove-Computer -WorkgroupName "WORKGROUP" -Force -Restart
 
 # Requiere módulo ActiveDirectory (RSAT):
 Remove-ADComputer -Identity "NOMBRE_DE_TU_EQUIPO" -Server "10.0.0.217" -Confirm:$false
+
 
 
 
