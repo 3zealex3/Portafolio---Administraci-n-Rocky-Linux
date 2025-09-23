@@ -1,4 +1,4 @@
-Practica 1
+Práctica 1 - Navegación Básica
 
 [20242286-ezequiel@localhost ~]$ history
     1  ls
@@ -6,7 +6,8 @@ Practica 1
     3  ls
     4  cd 20242286-ezequiel/
 
-Practica 2
+
+Práctica 2 - Configuración de Red
 
     5  ipconfig
     6  sudo ipconfig
@@ -24,7 +25,7 @@ Practica 2
    18  sudo nmcli con add type ethernet ifname ens160 con-name "Red-2" ipv4.addresses "10.0.0.180/24" ipv4.gateway "10.0.0.1" ipv4.dns "8.8.8.8,8.8.4.4" ipv4.method manual
    19  clear
 
-Practica 3
+Práctica 3 - Gestión de Usuarios y Grupos
 
    20  sudo groupadd Guest
    21  sudo useradd PEPE
@@ -65,7 +66,7 @@ Practica 3
    56  ls
    57  clear
 
-Practica 4.
+Práctica 4 - Gestión de Archivos y Permisos
 
    58  ls -l
    59  ls
@@ -114,3 +115,4 @@ Practica 4.
   102  clear
   103  history
 
+
