@@ -1,0 +1,418 @@
+
+--------------------------Practica 1-----------------------------------------
+
+
+----------------Instalación del servicio en la 1ra Maquina Virtual----
+
+sudo dnf install nfs-utils -y
+sudo systemctl enable --now nfs-server rpcbind
+
+----------------Dar permisos en el firewall---------------------
+
+sudo firewall-cmd --add-service={nfs,nfs3,mountd,rpc-bind} --permanent
+sudo firewall-cmd --reload
+
+
+---------------------Creación de Carpetas-------------------
+
+sudo mkdir /OS3
+touch Adrian{1..100}.txt
+
+--------------------Permisos a archivo-------------------------
+
+sudo chmod -R 775 /OS3
+sudo chown -R nobody:nobody /OS3  # Usuario "nobody" para acceso genérico
+
+
+------------------------Configuracion de archivo compartido----------
+sudo nano /etc/exports
+
+-------Nombre de Carpeta--------IP a quien se asignara------Permisos---
+/home/eze-20242286/OS3 10.0.0.216*(rw,sync,no_subtree_check,no_root_squash)
+
+
+--------------Activación---------------------------------
+sudo exportfs -arv
+
+
+-------------2. Configuración del Cliente NFS-----------------
+
+
+------------Instalacion----------------
+
+sudo dnf install nfs-utils -y
+
+
+----------------configuración---------------
+sudo mkdir /mnt/OS3_mount
+sudo mount -t nfs 10.0.0.217:/OS3 /mnt/OS3_mount
+
+
+-------------Desmontar Archivo para verificar---------------
+
+sudo umount /mnt/OS3_mount
+
+
+--------Montaje automatico--------------
+
+sudo nano /etc/fstab
+
+10.0.0.217:/OS3  /mnt/OS3_mount  nfs  defaults  0 0
+
+sudo reboot
+
+-----------------Verificar montaje----------------
+
+ls /mnt/OS3_mount  # Los archivos deben estar accesibles.
+--------------------------Practica 2-----------------------------------------
+
+
+-----------Instalar SAMBA-------------------
+
+sudo dnf install samba samba-common samba-client -y
+
+-----------------Crear carpeta compartida y asignar permisos-----------------
+
+sudo mkdir -p /mnt/sambashare
+sudo chmod -R 755 /mnt/sambashare/
+sudo chown -R nobody:nobody /mnt/sambashare
+sudo chcon -t samba_share_t /mnt/sambashare
+
+--------------------- Configurar /etc/samba/smb.conf----------------------
+
+sudo nano /etc/samba/smb.conf
+
+------------Agregar esta configuración al final del archivo-----------------
+
+[Public]
+   comment = Carpeta Publica
+   path = /mnt/sambashare
+   writable = yes
+   guest ok = yes
+   read only = no
+   browseable = yes
+
+
+----------------Verificar configuración--------------------
+
+sudo testparm
+
+----------------Habilitar Servicios y Firewall--------------------
+
+sudo systemctl start smb nmb
+sudo systemctl enable smb nmb
+sudo firewall-cmd --permanent --add-service=samba
+sudo firewall-cmd --reload
+
+----------------Verificar shares locales---------------
+
+smbclient -L 127.0.0.1 
+
+-----------------4. Crear Archivos y Configurar Acceso---------------------
+
+cd /mnt/sambashare/
+touch adrian{1..100}.txt
+
+-----------------Creación de Usuario y contraseña----------------------
+sudo groupadd sambausers
+sudo useradd -M -s /sbin/nologin eze_smb
+sudo smbpasswd -a eze_smb
+
+---------------------Reiniciar Samba-------------------
+
+systemctl restart smb
+
+-----------------Mapear carpeta---------------------------
+
+windows + R
+
+\\192.168.1.100
+
+verás la carpeta compartida "Public". Haz clic derecho sobre ella y selecciona:
+
+"Conectar como unidad de red"
+
+Elige una letra de unidad (ej: Z:)
+
+Marca "Reconectar al iniciar" para que sea permanente
+
+Click en "Finalizar"
+
+----------------Agregar contenido a adrian99.txt---------------------------
+
+el zumzum de la carabela
+
+--------------Verificar desde linux--------------------
+
+# Ver contenido del archivo modificado
+cat /mnt/sambashare/adrian99.txt
+
+# Ver fecha de modificación
+ls -l /mnt/sambashare/adrian99.txt
+
+
+
+
+--------------------------Practica 3-----------------------------------------
+
+
+
+Controlador de Dominio
+
+-------------------Configurar el nombre del host del servidor------------------
+
+hostnamectl set-hostname SO3.inet
+
+con nmtui realizar ciertas configuraciones a nuestro adaptador de red
+
+Añadir IP: 10.0.0.217
+Gateway: 10.0.0.1
+DNS Servers: 8.8.8.8
+	     8.8.4.4
+	     10.0.0.217
+
+Dominios: SO3.inet
+
+
+
+--------Abre el archivo de hosts para agregar el nuevo dominio e IP--------------
+
+nano /etc/hosts
+
+Agrega las siguiente linea al final:
+
+10.0.0.217 SO3-DOM 		SO3.inet inet
+
+--------------Reiniciar nuestra tarjeta de red-----------------
+
+interfaz grafica, panel de control de la derecha arriba apagar la red y luego subirla.
+
+-------------Verificar cambios-----------------------
+
+ip a (buscar la interfaz y es la que pondrás en el comando que esta después "1%")
+
+nano /etc/resolv.conf
+
+Añadir:
+nameserver fe80::1%ens160
+
+
+-----------Descargar el paquete de samba desde el sitio web oficial--------------
+
+wget https://download.samba.org./pub/samba/stable/samba-4.16.2.tar.gz
+
+
+--------------Extraer los archivos descargados---------------
+
+mkdir -p /samba
+mv samba-4.16.2.tar.gz /samba
+tar -zxf samba-4.16.2.tar.gz
+cd samba-4.16.2
+
+--------------Instalar repositorio epel---------------------
+dnf install epel-release -y
+
+-------------Activar el repositorio de powertools-------------------------
+sudo dnf config-manager --set-enable crb
+dnf -y update
+
+
+--------------Descargar dependencias necesarias---------------
+
+sudo dnf -y install docbook-style-xsl python3-markdown bison dbus-devel flex gdb \
+gnutls-devel jansson-devel keyutils-libs-devel krb5-workstation libacl-devel \
+libaio-devel libarchive-devel libattr-devel libblkid-devel libtasn1 libtasn1-tools \
+libxml2-devel libxslt lmdb-devel openldap-devel pam-devel perl perl-ExtUtils-MakeMaker \
+perl-Parse-Yapp popt-devel python3-cryptography python3-dns python3-gpg python3-devel \
+readline-devel rpcgen systemd-devel zlib-devel perl-JSON gpgme-devel screen
+
+
+
+----------------Preparar la configuración para compilar Samba------------
+
+./configure
+
+
+----------------Realiza la compilación de Samba--------------------
+make -j 2
+
+
+------------Instalar los archivos compilados de Samba----------------
+make -j 2 install
+
+
+-----------Renombra los archivos de configuración antiguos para hacer una copia de seguridad--------------------------
+
+mv /etc/samba/smb.conf /etc/samba/smb.conf.backup
+mv /etc/krb5.conf /etc/krb5.con.backup
+
+
+
+---------------Añade las rutas de Samba al PATH------------------------
+export PATH=/usr/local/samba/bin/:/usr/local/samba/sbin/:$PATH
+
+
+-----------Añade el PATH a los perfiles para usuario y root
+
+nano ~/.bash_profile
+nano ../.bash_profile
+
+
+PATH=$PATH:$HOME/bin:/usr/local/samba/bin/:/usr/local/samba/sbin/:$PATH
+export PATH
+
+
+
+5. Provisión del dominio ---verificar los nombres de las interfaces
+
+samba-tool domain provision --use-rfc2307 --interactive \
+--option="interfaces=lo ens160" \
+--option="bind interfaces only=yes"
+
+-------------Ingresar los detalles en la interfaz:--------------
+
+Dominio: SO3.inet
+Nombre de dominio: SO3-DOM
+Nombre de controlador: dc
+Backend DNS: SAMBA_INTERNAL
+DNS IP Address: darle enter
+Contraseña: Ezequiel20242286
+
+------------cambia el servidor de nombre al IP del servidor-------------
+
+nano /etc/resolv.conf
+
+--------------inicia el servicio de samba-----------------
+
+samba
+
+--------------Prueba la resolución de DNS-------------------
+
+ping www.google.com
+
+---------------Revisa los registros de host----------------------
+
+host -t SRV _ldap._tcp.SO3.inet
+
+host -t SRV _kerberos._udp.SO3.inet
+
+------------Prueba la resolución de dominio-----------------
+
+ping SO3.inet
+
+
+------------Copia el archivo de Kerberos a su ubicacion-------------
+
+cp /usr/local/samba/private/krb5.conf /etc/krb5.con
+
+
+------------Instalar iptables y activarlos-----------------
+
+dnf install iptables-services -y
+
+
+------------Detener y desactivar firewalld---------------
+systemctl stop firewalld
+
+systemctl start iptables
+systemctl enable iptables
+
+-----------------Abre la configuración de iptables------------
+
+nano /etc/sysconfig/iptables
+
+
+
+
+--------------Añade las siguientes líneas antes de la linea -A INPUT -j REJECT------
+
+-A INPUT -p tcp -s 10.0.0.217/24 -m state --state NEW -m multiport --dports 53,88,135,139,389,445,636,3268,49152:65535 -j ACCEPT
+
+-A INPUT -p udp -s 10.0.0.217/24 -m state --state NEW -m multiport --dports 53,123,137,138,389,636 -j ACCEPT
+
+
+
+
+----------------Reiniciar iptables
+
+systemctl restart iptables
+
+---------Para registros A en el DNS de Samba---------------
+
+samba-tool dns add 10.0.0.217 SO3.inet www A 10.0.0.185 -U Administrator
+
+sale contraseña y pondremos la que guardamos anteriormente
+
+
+(si da error)-----------Actualizar o reemplazar el registro---------------
+
+# Primero elimina el registro existente
+samba-tool dns delete 10.0.0.217 SO3.inet www A 10.0.0.185 -U "SO3-DOM\Administrator"
+
+# Luego agrega el nuevo registro
+samba-tool dns add 10.0.0.217 SO3.inet www A 10.0.0.185 -U "SO3-DOM\Administrator"
+
+
+--------------Dirigirse a la maquina de windows-----------------------
+
+
+Abrir panel de control
+redes e internet
+Centro de redes y recursos
+Cambiar configuración del adaptador
+Abrir el adaptador el 0
+Propiedades
+IPV4
+Agregar DNS: 10.0.0.217
+y el de google: 8.8.8.8
+
+
+
+--------------Comprobar resolución-------------------
+ping SO3.inet
+
+
+
+
+------------Agregar la maquina de windows al dominio-------------------
+
+Presiona Windows + R, escribe sysdm.cpl y presiona Enter.
+Nombre del equipo
+id de red
+Esta computadora es pate de una red de negocios
+My compañía usa una red con un dominio
+Siguiente
+Luego dejar el nombre de la PC igual
+Colocar nombre: Administrator
+Contraseña: Ezequiel20242286
+Nombre de dominio: SO3.inet
+seguir colocando el dominio y el nombre del usuario
+
+
+----------------Verificar el Dominio------------
+
+Verificación Detallada (PowerShell):
+
+
+(Get-WmiObject Win32_ComputerSystem).Domain
+
+
+
+-------------Por si sale todo mal-------------------
+
+Remove-Computer -UnjoinDomainCredential (Get-Credential) -WorkgroupName "WORKGROUP" -Force -Restart
+
+
+Test-ComputerSecureChannel -Verbose
+
+
+Remove-Computer -WorkgroupName "WORKGROUP" -Force -Restart
+
+
+# Requiere módulo ActiveDirectory (RSAT):
+Remove-ADComputer -Identity "NOMBRE_DE_TU_EQUIPO" -Server "10.0.0.217" -Confirm:$false
+
+
+
+
+
