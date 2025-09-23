@@ -1,0 +1,116 @@
+Practica 1
+
+[20242286-ezequiel@localhost ~]$ history
+    1  ls
+    2  cd ..
+    3  ls
+    4  cd 20242286-ezequiel/
+
+Practica 2
+
+    5  ipconfig
+    6  sudo ipconfig
+    7  clear
+    8  ping 8.8.4.4
+    9  clear
+   10  ping youtube.com
+   11  clear
+   12  nmtui
+   13  ping youtube
+   14  ping youtube.com
+   15  ping 10.0.0.183
+   16  clear
+   17  nmcli device status 
+   18  sudo nmcli con add type ethernet ifname ens160 con-name "Red-2" ipv4.addresses "10.0.0.180/24" ipv4.gateway "10.0.0.1" ipv4.dns "8.8.8.8,8.8.4.4" ipv4.method manual
+   19  clear
+
+Practica 3
+
+   20  sudo groupadd Guest
+   21  sudo useradd PEPE
+   22  sudo useradd CARLO
+   23  sudo passwd PEPE
+   24  sudo passwd CARLO
+   25  clear
+   26  ls
+   27  cd ..
+   28  ls
+   29  cut -d: -f1 /etc/group
+   30  cut -d: -f1 /etc/passwd
+   31  clear
+   32  ls
+   33  sudo usermod -aG Guest PEPE
+   34  groups PEPE
+   35  groups 20242286-ezequiel 
+   36  sudo usermod -aG wheel CARLO
+   37  ls
+   38  group CARLO
+   39  groups CARLO
+   40  sudo userdel -r PEPE
+   41  ls
+   42  pwd
+   43  sudo groupdel G
+   44  cut -d: -f1 /etc/group
+   45  sudo userdel CARLO
+   46  ls
+   47  cd ..
+   48  ls
+   49  sudo userdel -r CARLO
+   50  clear
+   51  ls
+   52  rm CARLO
+   53  rm -d CARLO
+   54  rm -rf CARLO
+   55  sudo rm -rf CARLO
+   56  ls
+   57  clear
+
+Practica 4.
+
+   58  ls -l
+   59  ls
+   60  cd 20242286-ezequiel/
+   61  ls
+   62  mkdir materia
+   63  ls
+   64  cd materia/
+   65  vi estudiante.txt
+   66  cat estudiante.txt
+   67  ls
+   68  ls 'l
+   69  clear
+   70  ls -l
+   71  sudo chmod 700 estudiante.txt
+   72  ls
+   73  ls -l
+   74  sudo chmod 770 estudiante.txt
+   75  ls -l
+   76  ls
+   77  clear
+   78  cd ..
+   79  ls
+   80  cp materia/estudiante.txt materia2/
+   81  mkdir materia2
+   82  cp materia/estudiante.txt materia2/
+   83  cd materia0
+   84  cd materia2
+   85  ls
+   86  ls -l
+   87  sudo chmod 700 estudiante.txt 
+   88  ls 'l
+   89  ls -l
+   90  clear
+   91  ls
+   92  clear
+   93  ls
+   94  cd ..
+   95  ls
+   96  groups 20242286-ezequiel 
+   97  history
+   98  clear
+   99  history
+  100  clear
+  101  history
+  102  clear
+  103  history
+
