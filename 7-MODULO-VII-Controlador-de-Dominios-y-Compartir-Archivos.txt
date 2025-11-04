@@ -81,7 +81,7 @@ sudo dnf install samba samba-common samba-client -y
 
 sudo mkdir -p /mnt/sambashare
 sudo chmod -R 755 /mnt/sambashare/
-sudo chown -R nobody:nobody /mnt/sambashare
+sudo chown -R root:sambausers /mnt/sambashare
 sudo chcon -t samba_share_t /mnt/sambashare
 
 --------------------- Configurar /etc/samba/smb.conf----------------------
@@ -97,6 +97,8 @@ sudo nano /etc/samba/smb.conf
    guest ok = yes
    read only = no
    browseable = yes
+   valid user = @sambausers
+
 
 
 ----------------Verificar configuración--------------------
@@ -423,3 +425,4 @@ Remove-ADComputer -Identity "NOMBRE_DE_TU_EQUIPO" -Server "10.0.0.217" -Confirm:
 
 
 
+
